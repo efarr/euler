@@ -29,36 +29,22 @@ def product(factors):
 	for i in factors: prod *= i
 	return prod
 
-def gridCol(n):
-	return [row[n] for row in grid]
-
-def down(row, col):
-	if (row > 16): return 0
-	return product(gridCol(col)[row:row+4])
-
-def across(row, col):
-	if (col > 16): return 0
-	return product(grid[row][col:col+4])
-
-def diagonal(row, col):
-	if (col > 16): return 0
-	if (row > 16): return 0
-	return product([grid[row][col],grid[row+1][col+1],grid[row+2][col+2],grid[row+3][col+3]])
-
-def diagonal2(row, col):
-	if (col < 3): return 0
-	if (row > 16): return 0
-	return product([grid[row][col],grid[row+1][col-1],grid[row+2][col-2],grid[row+3][col-3]])
-
 for l in gridAsString.splitlines():
 	row = [int(i) for i in l.split()]
 	grid.append(row)
 
 for row in range(0,20):
 	for col in range(0,20):
-		largest = max(largest, down(row,col))
-		largest = max(largest, across(row,col))
-		largest = max(largest, diagonal(row,col))
-		largest = max(largest, diagonal2(row,col))
+		for xDir in range(-1,2):
+			for yDir in range(-1,2):
+				if xDir == 0 and yDir == 0: continue
+				factors = []
+				for i in range(0,4):
+					xCoord = row+i*xDir
+					yCoord = col+i*yDir
+					if xCoord < 0 or xCoord > 19: continue
+					if yCoord < 0 or yCoord > 19: continue
+					factors.append(grid[xCoord][yCoord])
+				largest = max(largest, product(factors))
 
 print(largest)
