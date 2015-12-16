@@ -21,11 +21,7 @@ digits = (
 "71636269561882670428252483600823257530420752963450"
 )
 
-#digits = []
 largestProduct = 0
-
-#for char in raw:
-#	digits.append(int(char))
 
 def product(factors):
 	prod = 1
